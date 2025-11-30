@@ -315,20 +315,37 @@ router.post('/:id/ajustar-stock', authenticateToken, authorizeRoles('admin', 'em
 
 /**
  * @swagger
- * /api/productos/{id}:
- *   delete:
- *     summary: Eliminar producto
+ * /api/productos/{id}/toggle-estado:
+ *   patch:
+ *     summary: Habilitar/Inhabilitar producto
  *     tags: [Productos]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
  */
-router.delete('/:id', authenticateToken, authorizeRoles('admin'), async (req, res) => {
+router.patch('/:id/toggle-estado', authenticateToken, authorizeRoles('admin'), async (req, res) => {
   try {
-    await pool.query('DELETE FROM productos WHERE id = ?', [req.params.id]);
-    res.json({ message: 'Producto eliminado exitosamente' });
+    const [producto] = await pool.query('SELECT estado FROM productos WHERE id = ?', [req.params.id]);
+    
+    if (producto.length === 0) {
+      return res.status(404).json({ error: 'Producto no encontrado' });
+    }
+
+    const nuevoEstado = producto[0].estado === 'habilitado' ? 'inhabilitado' : 'habilitado';
+    await pool.query('UPDATE productos SET estado = ? WHERE id = ?', [nuevoEstado, req.params.id]);
+    
+    res.json({ 
+      message: `Producto ${nuevoEstado === 'habilitado' ? 'habilitado' : 'inhabilitado'} exitosamente`,
+      estado: nuevoEstado
+    });
   } catch (error) {
-    console.error('Error eliminando producto:', error);
-    res.status(500).json({ error: 'Error al eliminar producto' });
+    console.error('Error cambiando estado del producto:', error);
+    res.status(500).json({ error: 'Error al cambiar estado del producto' });
   }
 });
 

@@ -261,7 +261,40 @@ router.post('/:id/ajustar-stock', authenticateToken, authorizeRoles('admin', 'em
   }
 });
 
-// No se permite eliminar variantes físicamente, solo inhabilitarlas con PUT /:id
-// Para inhabilitar: PUT /:id con estado='inhabilitado'
+/**
+ * @swagger
+ * /api/variantes/{id}/toggle-estado:
+ *   patch:
+ *     summary: Habilitar/Inhabilitar variante
+ *     tags: [Variantes]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ */
+router.patch('/:id/toggle-estado', authenticateToken, authorizeRoles('admin', 'empleado'), async (req, res) => {
+  try {
+    const [variante] = await pool.query('SELECT estado FROM variantes_productos WHERE id = ?', [req.params.id]);
+    
+    if (variante.length === 0) {
+      return res.status(404).json({ error: 'Variante no encontrada' });
+    }
+
+    const nuevoEstado = variante[0].estado === 'habilitado' ? 'inhabilitado' : 'habilitado';
+    await pool.query('UPDATE variantes_productos SET estado = ? WHERE id = ?', [nuevoEstado, req.params.id]);
+    
+    res.json({ 
+      message: `Variante ${nuevoEstado === 'habilitado' ? 'habilitada' : 'inhabilitada'} exitosamente`,
+      estado: nuevoEstado
+    });
+  } catch (error) {
+    console.error('Error cambiando estado de la variante:', error);
+    res.status(500).json({ error: 'Error al cambiar estado de la variante' });
+  }
+});
 
 module.exports = router;

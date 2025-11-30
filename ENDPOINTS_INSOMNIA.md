@@ -178,7 +178,7 @@ Content-Type: application/json
 ```
 *Nota: Cuando `es_tallable=1`, NO enviar `precio_defecto` ni `cantidad_general`, ya que se manejan en las variantes*
 
-#### 4.4 Actualizar producto
+#### 3.4 Actualizar producto
 ```
 PUT http://localhost:3000/api/productos/1
 Authorization: Bearer <token>
@@ -192,9 +192,22 @@ Content-Type: application/json
   "estado": "inhabilitado"
 }
 ```
-**Nota:** Para "eliminar" un producto, cambiar `estado` a `inhabilitado`. Los productos nunca se borran físicamente.
 
-#### 4.5 Ajustar stock de producto (Admin/Empleado)
+#### 3.5 Habilitar/Inhabilitar producto (Admin)
+```
+PATCH http://localhost:3000/api/productos/1/toggle-estado
+Authorization: Bearer <token>
+```
+**Respuesta:**
+```json
+{
+  "message": "Producto inhabilitado exitosamente",
+  "estado": "inhabilitado"
+}
+```
+**Nota:** Los productos nunca se borran físicamente, solo se inhabilitan.
+
+#### 3.6 Ajustar stock de producto (Admin/Empleado)
 ```
 POST http://localhost:3000/api/productos/1/ajustar-stock
 Authorization: Bearer <token>
@@ -258,9 +271,22 @@ Content-Type: application/json
   "estado": "inhabilitado"
 }
 ```
-**Nota:** Para "eliminar" una variante, cambiar `estado` a `inhabilitado`. Las variantes nunca se borran físicamente.
 
-#### 4.5 Ajustar stock de variante
+#### 4.5 Habilitar/Inhabilitar variante (Admin/Empleado)
+```
+PATCH http://localhost:3000/api/variantes/5/toggle-estado
+Authorization: Bearer <token>
+```
+**Respuesta:**
+```json
+{
+  "message": "Variante inhabilitada exitosamente",
+  "estado": "inhabilitado"
+}
+```
+**Nota:** Las variantes nunca se borran físicamente, solo se inhabilitan.
+
+#### 4.6 Ajustar stock de variante
 ```
 POST http://localhost:3000/api/variantes/5/ajustar-stock
 Authorization: Bearer <token>
@@ -274,7 +300,6 @@ Content-Type: application/json
   "descripcion": "Llegada de proveedor"
 }
 ```
-**Nota:** Las variantes no se eliminan físicamente, solo se inhabilitan con PUT actualizando el campo `estado`.
 
 ---
 
