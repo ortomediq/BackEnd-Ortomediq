@@ -910,6 +910,73 @@ APARTADO_EXPIRY_HOURS=48
 
 ---
 
+### 16. PERSONAL (`/api/personal`) - Solo Admin
+
+#### 16.1 Listar todo el personal
+```
+GET http://localhost:3000/api/personal
+Authorization: Bearer <token>
+```
+
+#### 16.2 Obtener personal por ID
+```
+GET http://localhost:3000/api/personal/1
+Authorization: Bearer <token>
+```
+
+#### 16.3 Obtener personal por usuario_id
+```
+GET http://localhost:3000/api/personal/usuario/2
+Authorization: Bearer <token>
+```
+
+#### 16.4 Registrar nuevo personal
+```
+POST http://localhost:3000/api/personal
+Authorization: Bearer <token>
+Content-Type: application/json
+```
+**Body:**
+```json
+{
+  "usuario_id": 2,
+  "nombre": "Juan",
+  "apellido_paterno": "Pérez",
+  "apellido_materno": "García",
+  "rfc": "PEGJ900101ABC",
+  "curp": "PEGJ900101HDFRXN01",
+  "nss": "12345678901",
+  "fecha_nacimiento": "1990-01-01",
+  "telefono": "4421234567",
+  "direccion": "Calle Principal #123, Col. Centro",
+  "codigo_postal": "76000"
+}
+```
+**Validaciones:**
+- RFC: 13 caracteres
+- CURP: 18 caracteres
+- NSS: 11 dígitos numéricos
+- usuario_id debe corresponder a un usuario con rol 'admin' o 'empleado'
+
+#### 16.5 Actualizar información de personal
+```
+PUT http://localhost:3000/api/personal/1
+Authorization: Bearer <token>
+Content-Type: application/json
+```
+**Body (todos los campos son opcionales):**
+```json
+{
+  "nombre": "Juan Carlos",
+  "telefono": "4429876543",
+  "direccion": "Nueva Calle #456",
+  "codigo_postal": "76100"
+}
+```
+**Nota:** No se permite eliminar personal, solo actualizar información. Si se requiere dar de baja, inhabilitar el usuario asociado.
+
+---
+
 ## 🔧 COMANDOS ÚTILES
 
 ```bash

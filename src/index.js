@@ -24,6 +24,7 @@ const chatsRoutes = require('./routes/chats');
 const bitacorasRoutes = require('./routes/bitacoras');
 const asistenciasRoutes = require('./routes/asistencias');
 const estadisticasRoutes = require('./routes/estadisticas');
+const personalRoutes = require('./routes/personal');
 
 // Job para expirar apartados
 const { expireApartados } = require('./jobs/expireApartados');
@@ -57,6 +58,7 @@ app.use('/api/chats', chatsRoutes);
 app.use('/api/bitacoras', bitacorasRoutes);
 app.use('/api/asistencias', asistenciasRoutes);
 app.use('/api/estadisticas', estadisticasRoutes);
+app.use('/api/personal', personalRoutes);
 
 // Ruta de health check
 app.get('/api/health', (req, res) => {

@@ -66,6 +66,28 @@ CREATE TABLE IF NOT EXISTS sesiones (
   INDEX idx_sesiones_expira (expira_en)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Tabla de personal (información completa de empleados y administradores)
+CREATE TABLE IF NOT EXISTS personal (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  usuario_id INT NOT NULL UNIQUE,
+  nombre VARCHAR(100) NOT NULL,
+  apellido_paterno VARCHAR(100) NOT NULL,
+  apellido_materno VARCHAR(100),
+  rfc VARCHAR(13) NOT NULL UNIQUE,
+  curp VARCHAR(18) NOT NULL UNIQUE,
+  nss VARCHAR(11) NOT NULL UNIQUE,
+  fecha_nacimiento DATE NOT NULL,
+  telefono VARCHAR(15),
+  direccion TEXT,
+  codigo_postal VARCHAR(5),
+  creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  actualizado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_personal_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+  INDEX idx_personal_rfc (rfc),
+  INDEX idx_personal_curp (curp),
+  INDEX idx_personal_nss (nss)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- 6) productos (con cantidad_reservada agregada)
 CREATE TABLE IF NOT EXISTS productos (
   id INT AUTO_INCREMENT PRIMARY KEY,
