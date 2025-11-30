@@ -1,0 +1,304 @@
+{
+  "info": {
+    "name": "Ortomediq API",
+    "description": "Colección de endpoints para Ortomediq Backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"correo\": \"admin@ortomediq.com\",\n  \"contrasena\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get Me",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {
+              "raw": "{{base_url}}/api/auth/me",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "me"]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {
+              "raw": "{{base_url}}/api/auth/logout",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "logout"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Productos",
+      "item": [
+        {
+          "name": "Listar productos",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/productos",
+              "host": ["{{base_url}}"],
+              "path": ["api", "productos"]
+            }
+          }
+        },
+        {
+          "name": "Obtener producto",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/productos/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "productos", "1"]
+            }
+          }
+        },
+        {
+          "name": "Crear producto",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Producto Nuevo\",\n  \"descripcion\": \"Descripción del producto\",\n  \"precio_defecto\": 500,\n  \"cantidad_general\": 10,\n  \"es_tallable\": 0\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/productos",
+              "host": ["{{base_url}}"],
+              "path": ["api", "productos"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Apartados",
+      "item": [
+        {
+          "name": "Crear apartado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"producto_id\": 1,\n      \"cantidad\": 2\n    }\n  ],\n  \"nota\": \"Apartado de prueba\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/apartados",
+              "host": ["{{base_url}}"],
+              "path": ["api", "apartados"]
+            }
+          }
+        },
+        {
+          "name": "Listar mis apartados",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {
+              "raw": "{{base_url}}/api/apartados",
+              "host": ["{{base_url}}"],
+              "path": ["api", "apartados"]
+            }
+          }
+        },
+        {
+          "name": "Convertir apartado a venta",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"metodo_pago\": \"efectivo\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/apartados/1/convertir-venta",
+              "host": ["{{base_url}}"],
+              "path": ["api", "apartados", "1", "convertir-venta"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ventas",
+      "item": [
+        {
+          "name": "Registrar venta directa",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"producto_id\": 1,\n      \"cantidad\": 1\n    }\n  ],\n  \"metodo_pago\": \"efectivo\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/ventas",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ventas"]
+            }
+          }
+        },
+        {
+          "name": "Listar ventas",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {
+              "raw": "{{base_url}}/api/ventas",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ventas"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Opiniones",
+      "item": [
+        {
+          "name": "Crear opinión",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"apartado_id\": 1,\n  \"producto_id\": 1,\n  \"calificacion\": 5,\n  \"comentario\": \"Excelente producto\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/opiniones",
+              "host": ["{{base_url}}"],
+              "path": ["api", "opiniones"]
+            }
+          }
+        },
+        {
+          "name": "Listar opiniones aprobadas",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/opiniones",
+              "host": ["{{base_url}}"],
+              "path": ["api", "opiniones"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chats",
+      "item": [
+        {
+          "name": "Obtener mi chat",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {
+              "raw": "{{base_url}}/api/chats/mi-chat",
+              "host": ["{{base_url}}"],
+              "path": ["api", "chats", "mi-chat"]
+            }
+          }
+        },
+        {
+          "name": "Enviar mensaje",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mensaje\": \"Hola, necesito ayuda\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/chats/1/mensajes",
+              "host": ["{{base_url}}"],
+              "path": ["api", "chats", "1", "mensajes"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Estadísticas",
+      "item": [
+        {
+          "name": "Resumen general",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {
+              "raw": "{{base_url}}/api/estadisticas/resumen-general",
+              "host": ["{{base_url}}"],
+              "path": ["api", "estadisticas", "resumen-general"]
+            }
+          }
+        },
+        {
+          "name": "Productos bajo stock",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {
+              "raw": "{{base_url}}/api/estadisticas/productos-bajo-stock?umbral=5",
+              "host": ["{{base_url}}"],
+              "path": ["api", "estadisticas", "productos-bajo-stock"],
+              "query": [{"key": "umbral", "value": "5"}]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
